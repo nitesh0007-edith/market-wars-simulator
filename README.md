@@ -1,225 +1,411 @@
-# 🧠 Market Wars Simulator
-### Wealth-Generating Strategy Arena  
-**Simulate, Trade, Compete, Evolve.**
+# ⚔️ Market Wars: Strategy Arena & Wealth Generator
+
+<div align="center">
+
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+![Python](https://img.shields.io/badge/python-3.8+-blue.svg)
+![Streamlit](https://img.shields.io/badge/streamlit-1.0+-FF4B4B.svg)
+![Status](https://img.shields.io/badge/status-active-success.svg)
+
+**A full-stack trading strategy simulator with market regimes, risk controls, transaction costs, and a live Genetic Algorithm optimizer.**
+
+[Features](#-key-features) • [Installation](#-installation) • [Quick Start](#-quick-demo-cli) • [Dashboard](#️-streamlit-dashboard) • [Documentation](#-project-structure)
+
+</div>
 
 ---
 
-## 📘 Overview
+## 🌍 Overview
 
-**Market Wars Simulator** is a **synthetic financial market engine** where multiple trading strategies ("agents") compete under **realistic conditions** — regime shifts, shocks, slippage, and trading costs.  
-It provides a *battlefield* to test, compare, and evolve wealth-generation algorithms.
+**Market Wars Simulator** is a comprehensive platform for exploring how different trading strategies perform in realistic, regime-driven markets. It simulates **price dynamics**, **broker execution**, and **portfolio accounting**, while evaluating each agent on **risk-adjusted returns**.
 
-The project currently covers **Stage 1–2** of the full simulator roadmap:
-- Stage 1 → Market simulation + trading engine  
-- Stage 2 → Four functional strategy agents + comparative analytics  
+A powerful **Genetic Algorithm (GA)** evolves strategy parameters — either globally or per-regime — and you can visualize everything through an intuitive **Streamlit dashboard**.
 
-Upcoming stages will introduce adaptive optimization (Genetic Algorithms) and a Streamlit dashboard.
+### 🎯 What Makes This Special?
 
----
-
-## 🧩 Core Concepts
-
-| Component | Purpose |
-|------------|----------|
-| **Market Generator** | Creates price paths using a 3-state regime model (Bull, Bear, Flat) with Poisson shock events |
-| **Execution Engine** | Simulates realistic trade fills (spreads, slippage, commissions, leverage) |
-| **Agents (Strategies)** | Competing trading algorithms that decide target portfolio weights each timestep |
-| **Portfolio & Broker** | Manage cash, positions, P&L, and equity over time |
-| **Metrics Engine** | Evaluates CAGR, Sharpe, Volatility, Max Drawdown, Calmar, Hit Rate |
-| **Visualization Layer** | Plots price + regimes, trade markers, equity curves, and league tables |
+- 🏦 **Realistic Market Microstructure** — Hidden Markov regimes, transaction costs, slippage
+- 🧠 **Intelligent Agents** — Momentum, mean-reversion, volatility targeting, and buy-hold strategies
+- 🧬 **Evolutionary Optimization** — GA-powered parameter tuning with regime awareness
+- 📊 **Professional Analytics** — Sharpe ratio, Calmar ratio, drawdown analysis, and more
+- 🎨 **Beautiful Visualizations** — Interactive charts with regime coloring and trade markers
 
 ---
 
-## 🏗️ Repository Structure
+## 🧩 Key Features
+
+### 🏦 Market & Regimes
+
+- Hidden-Markov chain of **Bull / Bear / Flat** states
+- Regime-specific drift (`μ`) and volatility (`σ`)
+- **Shock events** via Poisson jumps (crashes or gaps)
+- Adjustable transition matrix & shock probability
+
+### ⚙️ Execution Engine & Costs
+
+- Full **broker layer**: commission, bid/ask spread, slippage
+- Portfolio with **cash, positions, equity, leverage & drawdown stops**
+- Realistic **PnL accounting** per trade
+
+### 🧠 Trading Agents
+
+| Agent | Core Logic | Style |
+|:------|:-----------|:------|
+| **BuyHold** | Passive hold at fixed weight | Baseline benchmark |
+| **Momentum** | Moving-average cross or breakout | Trend-following |
+| **MeanRev** | z-score mean reversion with stops | Contrarian |
+| **VolTarget** | Target volatility using EWMA scaling | Risk control |
+
+### 📊 Evaluation Metrics
+
+- **CAGR** — Compound Annual Growth Rate
+- **Annualized Volatility** — Risk measurement
+- **Sharpe Ratio** — Risk-adjusted returns
+- **Max Drawdown** — Largest peak-to-trough decline
+- **Calmar Ratio** — Return vs drawdown
+- **Hit Rate** — Win percentage
+- **Turnover** — Trading frequency
+
+### 🧬 Genetic Algorithm
+
+- Population-based search for optimal parameters
+- **Global optimization** across full market history
+- **Per-regime optimization** — adaptive parameters that change with market conditions
+- Live progress bar & fitness chart in Streamlit
+- JSON export of tuned parameters and fitness history
+
+### 🔄 Regime-Aware Adaptive Simulation
+
+- **"Apply per-regime genes live"** button dynamically switches agent parameters as regimes change
+- Observe adaptive equity curve and risk metrics in real-time
+- Compare static vs adaptive strategy performance
+
+---
+
+## 🖥️ Streamlit Dashboard
+
+**Launch the dashboard:**
+
+```bash
+streamlit run app.py
+```
+
+### 🎛️ Dashboard Features
+
+**📌 Sidebar Controls:**
+- Choose market preset (Calm Bull, Choppy Sideways, Crisis)
+- Adjust broker costs, agent selection, GA settings
+- Configure simulation parameters
+
+**🔘 Action Buttons:**
+- ▶️ **Run Simulation** — Execute full market simulation
+- 🧬 **Run GA** — Launch genetic algorithm optimization
+- ⚙️ **Apply per-regime genes** — Enable adaptive trading live
+
+**📈 Main Panels:**
+- **Price Chart** — Regime-colored with shock event markers
+- **Agent Equity Curves** — Multi-strategy comparison
+- **League Table** — Sortable metrics for all agents
+- **Download Results** — Export CSV/JSON data
+- **GA Fitness History** — Evolution progress plots
+
+---
+
+## 🧱 Project Structure
+
 ```
 market-wars-simulator/
 ├── market/
-│   ├── generator.py          # Regime-based price path generator
-│   └── visualize.py           # Price + regime visualization helpers
+│   ├── generator.py          # Regime-based market simulator
+│   └── visualize.py          # Plot helpers (regime colors, shocks)
 ├── engine/
-│   ├── broker.py              # Order execution: spreads, slippage, commissions
-│   └── portfolio.py           # Cash, positions, P&L, margin logic
+│   ├── broker.py             # Costs: spread, commission, slippage
+│   └── portfolio.py          # Portfolio accounting (cash, equity)
 ├── agents/
-│   ├── base.py                # Abstract agent interface
-│   ├── buyhold.py             # Buy & Hold baseline
-│   ├── momentum.py            # Momentum (MA crossover) strategy
-│   ├── meanrev.py             # Mean Reversion (z-score) strategy
-│   └── voltarget.py           # Volatility Targeting (EWMA) strategy
+│   ├── base.py               # Base agent interface
+│   ├── buyhold.py            # Buy and hold strategy
+│   ├── momentum.py           # Trend following strategy
+│   ├── meanrev.py            # Mean reversion strategy
+│   └── voltarget.py          # Volatility targeting strategy
 ├── eval/
-│   └── metrics.py             # Metrics utilities (used inside demos)
+│   └── metrics.py            # Risk metrics & league table
 ├── opt/
-│   └── ga.py                  # (Stage 3) Genetic Algorithm tuner [placeholder]
-├── demo_run_momentum.py       # Basic momentum test
-├── demo_analyze_momentum.py   # Trade markers + performance report
-├── demo_compare_agents.py     # Multi-agent comparison + league table
-├── requirements.txt
-└── README.md
+│   └── ga.py                 # Genetic Algorithm core
+├── tests/
+│   ├── test_opt_ga.py        # GA unit tests
+│   └── test_per_regime_apply.py  # Regime adaptation tests
+├── app.py                    # Streamlit dashboard (main entry)
+├── demo_run_market.py        # Market generator demo
+├── requirements.txt          # Python dependencies
+└── README.md                 # This file
 ```
 
 ---
 
-## ⚙️ Installation
+## 📦 Installation
 
-### 1. Clone and setup
+### 1️⃣ Clone the Repository
+
 ```bash
-git clone https://github.com/<yourname>/market-wars-simulator.git
+git clone https://github.com/<your-username>/market-wars-simulator.git
 cd market-wars-simulator
+```
+
+### 2️⃣ Create Virtual Environment
+
+```bash
+# Mac/Linux
+python3 -m venv .venv
+source .venv/bin/activate
+
+# Windows
 python -m venv .venv
-source .venv/bin/activate       # or .\.venv\Scripts\activate on Windows
+.venv\Scripts\activate
+```
+
+### 3️⃣ Install Dependencies
+
+```bash
 pip install -r requirements.txt
 ```
 
-### Dependencies
+### 4️⃣ Launch Dashboard
 
-- `numpy`
-- `pandas`
-- `matplotlib`
-- `streamlit`
-- `scikit-learn`   *(optional for later GA utilities)*
-
----
-
-## 🎮 Quick Start
-
-### 1️⃣ Run a single-agent momentum simulation
 ```bash
-python demo_run_momentum.py
+streamlit run app.py
 ```
 
-Generates a 2-year synthetic market, executes a Momentum agent, and plots price + equity + drawdown curves.
+The dashboard will open automatically in your browser at `http://localhost:8501`
 
 ---
 
-### 2️⃣ Visualize trade markers and performance report
+## ⚡ Quick Demo (CLI)
+
+Run the market generator test:
+
 ```bash
-python demo_analyze_momentum.py
+python demo_run_market.py
 ```
 
-**Shows:**
-- 🟩 Price + regimes + shocks
-- 🟢 Buy / 🔴 Sell trade markers
-- 💰 Equity & Drawdown
-- 🧾 Printed performance metrics (CAGR, Sharpe, MaxDD, etc.)
+This generates a 2-year synthetic price path with regime colors and shock markers.
 
-**Output example:**
-```
-Trades:       165
-CAGR  : -0.0755
-Sharpe: -0.5432
-MaxDD : -19.84%
-HitRate: 44.24%
-```
+**Output:** `demo_market_path.csv`
 
 ---
 
-### 3️⃣ Compare multiple strategies (Stage 2)
+## 📊 Example Results
+
+### Momentum Strategy — Calm Bull Market
+
+| Metric | Value |
+|:-------|:------|
+| **CAGR** | +3.67% |
+| **Ann. Volatility** | 11.7% |
+| **Sharpe Ratio** | 0.36 |
+| **Max Drawdown** | -18.4% |
+| **Calmar Ratio** | 0.19 |
+| **Hit Rate** | 51.7% |
+| **Trades** | 298 |
+
+---
+
+## 🧬 Genetic Algorithm Example
+
+### Configuration
+
+| Parameter | Value |
+|:----------|:------|
+| **Population** | 12 |
+| **Generations** | 10 |
+| **Elite Size** | 2 |
+| **Mutation Rate** | 0.2 |
+| **Fitness Function** | Sharpe - 2×Drawdown - 0.5×Turnover |
+
+### Outputs
+
+- `ga_results/momentum_calm_bull_regime_0.json`
+- `ga_results/momentum_calm_bull_regime_1.json`
+- Downloadable best gene JSON from UI
+
+---
+
+## 🧪 Testing
+
+Run the unit tests:
+
 ```bash
-python demo_compare_agents.py
+pytest -q
 ```
 
-Plots all agent equity curves on the same market and prints a league table:
-
-| Agent      | CAGR   | AnnVol | Sharpe | MaxDD   | Calmar | HitRate | Trades |
-|------------|--------|--------|--------|---------|--------|---------|--------|
-| Momentum   | 0.0367 | 0.1174 | 0.3660 | -18.4%  | 0.20   | 51.7%   | 298    |
-| BuyHold    | ...    | ...    | ...    | ...     | ...    | ...     | ...    |
-| MeanRev    | ...    | ...    | ...    | ...     | ...    | ...     | ...    |
-| VolTarget  | ...    | ...    | ...    | ...     | ...    | ...     | ...    |
-
-**CSV outputs:**
-- `compare_league.csv`
-- `compare_equity_curves.csv`
+**Test Coverage:**
+- ✅ GA core execution & callback
+- ✅ Regime-aware simulation validation
+- ✅ Portfolio accounting accuracy
+- ✅ Broker cost calculations
 
 ---
 
-## 📈 Sample Visualization
+## 🧭 Market Presets
 
-*(Insert your screenshots here once generated)*
-
-- 🟩 **Market with Regimes & Shocks**
-- 📊 **Agent Equity Curves**
-- 💰 **Drawdown Plot**
-
----
-
-## 📊 Stage 2 — Achievements
-
-| Area                  | Highlights                                                                 |
-|-----------------------|----------------------------------------------------------------------------|
-| **Market Engine**     | Markov-chain regime model (Bull, Bear, Flat) + stochastic shocks           |
-| **Broker / Portfolio**| Spread, slippage, commission, leverage, margin accounting                  |
-| **Agents Implemented**| Buy & Hold, Momentum, Mean Reversion, Vol Targeting                        |
-| **Metrics**           | CAGR, Volatility, Sharpe, MaxDD, Calmar, Hit Rate                          |
-| **Visualization**     | Regime bands, trade markers, equity curves, drawdowns                      |
-| **Comparative Analysis** | League table across strategies with CSV export                          |
+| Preset | Behavior | Use Case |
+|:-------|:---------|:---------|
+| 🟢 **Calm Bull** | Stable uptrend, low volatility | Benchmark for long bias |
+| 🟡 **Choppy Sideways** | Range-bound, frequent regime changes | Test strategy adaptability |
+| 🔴 **Crisis Mode** | High volatility, negative drift, frequent shocks | Stress test & drawdown handling |
 
 ---
 
-## 💡 Key Insights
+## 🧠 How Strategy Evolution Works
 
-| Regime            | Best Strategy              | Notes                                  |
-|-------------------|----------------------------|----------------------------------------|
-| Calm Bull         | Momentum / Buy & Hold      | Long trends, low noise                 |
-| Choppy Sideways   | Mean Reversion             | Frequent reversals, short-term alpha   |
-| Crisis            | Vol Targeting              | Survives by cutting exposure           |
-| All               | —                          | No single strategy wins everywhere     |
+### 1. **Simulation**
+Market generates regime-driven prices → Agents execute trades → P&L tracked
 
-**Lesson:** Robust wealth generation comes from adaptive multi-strategy systems, not single-style trading.
+### 2. **Evaluation**
+Compute Sharpe ratio, drawdown, volatility, and turnover metrics
 
----
+### 3. **Optimization**
+- GA mutates strategy parameters (e.g., MA lengths, z-score thresholds)
+- Fitness = `Sharpe - α×Drawdown - β×Turnover`
+- Elite strategies preserved, weak ones eliminated
 
-## 🧠 Quant Takeaways
+### 4. **Adaptation**
+- **Global GA**: Single optimized parameter set
+- **Per-Regime GA**: Different parameters per market regime
 
-- **Regime modeling** introduces realism (trend persistence, volatility clustering).
-- **Slippage & spread** transform toy models into plausible simulations.
-- **Sharpe and Calmar** reveal efficiency, not just profit.
-- **Combining uncorrelated agents** = smoother equity curve.
-
----
-
-## 🧭 Next Stage — Roadmap
-
-| Stage | Focus | Key Files |
-|-------|-------|-----------|
-| **3** | **Optimization & Adaptation** — Genetic Algorithm for auto-tuning strategy parameters (maximize Sharpe, penalize DD & turnover) | `opt/ga.py`, `demo_optimize_agents.py` |
-| **4** | **Interactive Dashboard** — Streamlit app with controls, scenario presets, league table, downloadable reports | `app.py` |
-| **5** | **Packaging & Demo** — Final polish, screenshots, and pitch materials | `README.md`, demo script |
+### 5. **Live Mode**
+Apply per-regime genes dynamically to observe adaptive trading behavior
 
 ---
 
-## 🏁 Summary
+## 🎨 Visualization Examples
 
-You now have a fully functional quantitative simulation lab where:
-
-- **Markets evolve realistically**,
-- **Agents trade with real-world frictions**,
-- **Performance is measured with institutional metrics**,
-- **Strategies can be compared objectively**.
-
-**Next up** → teach them to adapt and evolve.
-
-Stage 3 introduces a Genetic Algorithm tuner that learns optimal parameters per regime, demonstrating "intelligent wealth generation".
+| Chart Type | Description |
+|:-----------|:------------|
+| **Price Chart** | Regime-colored background with shock event markers |
+| **Equity Curves** | Multi-agent performance comparison over time |
+| **League Table** | Ranked by Sharpe, Calmar, and drawdown metrics |
+| **GA Fitness Plot** | Fitness evolution across generations |
+| **Regime Adaptation** | Dynamic parameter switching visualization |
 
 ---
 
-## 📄 License
+## 📁 Data Outputs
 
-MIT License © 2025 Your Name
-
----
-
-## 👤 Author
-
-**Your Name**  
-Quant Developer | Strategy Simulation Researcher  
-*[LinkedIn / GitHub / Email (optional)]*
+| File | Description |
+|:-----|:------------|
+| `demo_market_path.csv` | Simulated market price path |
+| `league_table.csv` | Strategy comparison metrics |
+| `equity_curves.csv` | Agent equity curves over time |
+| `ga_results/*.json` | GA optimization results per regime |
+| `regime_aware_sim_*.csv` | Adaptive simulation results |
 
 ---
 
-## 🏷️ Keywords
+## 🧭 Roadmap
 
-<<<<<<< HEAD
-`finance` `quant` `trading-simulator` `machine-learning` `genetic-algorithm` `streamlit` `wealth-generation`
-=======
-`finance` `quant` `trading-simulator` `machine-learning` `genetic-algorithm` `streamlit` `wealth-generation`
->>>>>>> 8a9cefd (Adding updated files)
+### Planned Features
+
+- [ ] **Reinforcement Learning Agent** — Discrete L/S/Flat actions with policy optimization
+- [ ] **Multi-Asset Simulation** — Correlated regimes for portfolio strategies
+- [ ] **Live Monte Carlo Visualizer** — Real-time GA evolution display
+- [ ] **Persistent Database** — SQLite/Feather for result storage
+- [ ] **Battle Arena Leaderboard** — Web-based competition platform
+- [ ] **Options Strategies** — Delta hedging and volatility trading
+- [ ] **Backtesting Framework** — Historical data integration
+
+---
+
+## 🏆 Why This Project Stands Out
+
+### 🎯 For Hackathon Judges
+
+**1. Domain Expertise**
+- Realistic market microstructure modeling
+- Professional-grade risk metrics and accounting
+
+**2. Technical Depth**
+- Hidden Markov Models for regime simulation
+- Genetic Algorithm optimization with callbacks
+- Modular, testable, maintainable codebase
+
+**3. Innovation**
+- Per-regime adaptive parameter evolution
+- Live simulation with dynamic strategy switching
+- Multi-objective fitness optimization
+
+**4. User Experience**
+- Beautiful Streamlit dashboard
+- Clear visualizations and downloadable results
+- Multiple preset scenarios for instant exploration
+
+**5. Practical Value**
+- Educational tool for quantitative finance
+- Research platform for strategy development
+- Portfolio optimization framework
+
+---
+
+## 🧰 Tech Stack
+
+| Category | Libraries |
+|:---------|:----------|
+| **Simulation** | `numpy`, `pandas` |
+| **Visualization** | `matplotlib`, `streamlit` |
+| **Optimization** | Custom `opt/ga.py` |
+| **Evaluation** | `scikit-learn` (optional utils) |
+| **Testing** | `pytest` |
+
+---
+
+## 🧑‍💻 Authors
+
+**Team Market Wars**
+
+👤 **Nitesh Ranjan Singh** — Quant Dev & Simulation  
+👤 **Teammate A** — Optimization & UI
+
+---
+
+## 📜 License
+
+This project is licensed under the **MIT License** — free to use, modify, and extend.
+
+See [LICENSE](LICENSE) file for details.
+
+---
+
+## 💡 Pitch (30-Second Version)
+
+> *"We built a trading battle arena where strategies compete in synthetic markets with real-world complexity. Each market has bull/bear/sideways regimes and crash events. Agents range from momentum to mean-reversion, all facing realistic costs. A Genetic Algorithm evolves each strategy's parameters and adapts them to changing market conditions. The dashboard shows clear equity curves, drawdowns, and metrics. Downloadable JSONs ensure reproducibility. Our simulator blends market realism with AI adaptation — a true playground for strategy evolution."*
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+1. Fork the project
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+---
+
+## 📞 Contact
+
+Have questions or suggestions? Feel free to open an issue or reach out!
+
+- **GitHub Issues**: [Create an issue](https://github.com/<your-username>/market-wars-simulator/issues)
+- **Email**: your.email@example.com
+
+---
+
+<div align="center">
+
+### 📈 Market Wars — Learn, Simulate, Evolve.
+
+**Made with ❤️ by Team Market Wars**
+
+⭐ Star this repo if you find it useful!
+
+</div>
