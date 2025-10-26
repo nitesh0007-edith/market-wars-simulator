@@ -6,6 +6,7 @@
 ![Python](https://img.shields.io/badge/python-3.8+-blue.svg)
 ![Streamlit](https://img.shields.io/badge/streamlit-1.0+-FF4B4B.svg)
 ![Status](https://img.shields.io/badge/status-active-success.svg)
+![Dashboard]([https://img.shields.io/badge/status-active-success.svg](https://github.com/Dharundp6/GUTS))
 
 **A full-stack trading strategy simulator with market regimes, risk controls, transaction costs, and a live Genetic Algorithm optimizer.**
 
@@ -361,7 +362,7 @@ Apply per-regime genes dynamically to observe adaptive trading behavior
 **Team Market Wars**
 
 👤 **Nitesh Ranjan Singh** — Quant Dev & Simulation  
-👤 **Teammate A** — Optimization & UI
+👤 **Dharun Prasanth** — Optimization & AI Chatbot
 
 ---
 
