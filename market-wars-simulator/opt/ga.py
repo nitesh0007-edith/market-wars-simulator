@@ -1,6 +1,11 @@
 # opt/ga.py
+"""
+Simple Genetic Algorithm utilities for Market Wars.
+Provides a generational GA with an optional on_generation callback
+that receives (gen_index, best_fitness_in_gen, best_gene_in_gen).
+"""
+
 import random
-import numpy as np
 from copy import deepcopy
 
 def init_population(gene_bounds, pop_size, rng):
@@ -31,12 +36,36 @@ def crossover(g1, g2, rng):
         child[k] = g1[k] if rng.random() < 0.5 else g2[k]
     return child
 
-def simple_ga(fitness_fn, gene_bounds, pop_size=12, gens=8, elite=2, mut_rate=0.2, seed=0, verbose=False):
+def simple_ga(fitness_fn,
+              gene_bounds,
+              pop_size=12,
+              gens=8,
+              elite=2,
+              mut_rate=0.2,
+              seed=0,
+              verbose=False,
+              on_generation=None):
     """
-    Simple generational GA:
-      - gene_bounds: dict of {name: (low,high,is_int)}
-      - fitness_fn: callable(gene_dict) -> float (higher better)
-    Returns: best_gene, history (best fitness per generation)
+    Simple generational GA with optional on_generation callback.
+
+    Parameters
+    ----------
+    fitness_fn : callable(gene_dict) -> float
+        Returns a scalar fitness (higher is better).
+    gene_bounds : dict
+        { 'param': (low, high, is_int), ... }
+    pop_size : int
+    gens : int
+    elite : int
+    mut_rate : float
+    seed : int
+    verbose : bool
+    on_generation : callable(gen_index, best_fit_in_gen, best_gene_in_gen) or None
+
+    Returns
+    -------
+    best_gene : dict
+    history : list of best_fitness per generation
     """
     rng = random.Random(seed)
     pop = init_population(gene_bounds, pop_size, rng)
@@ -53,25 +82,43 @@ def simple_ga(fitness_fn, gene_bounds, pop_size=12, gens=8, elite=2, mut_rate=0.
                 if verbose:
                     print("Fitness error:", e)
                 fit = -1e12
-            scored.append((fit, gene))
+            scored.append((fit, deepcopy(gene)))
+
+        # sort by fitness desc
         scored.sort(key=lambda x: x[0], reverse=True)
         best_fit_gen, best_gene_gen = scored[0]
-        history.append(best_fit_gen)
+        history.append(float(best_fit_gen))
+
+        # update global best
         if best_fit_gen > best_fit:
             best_fit = best_fit_gen
             best_gene = deepcopy(best_gene_gen)
-        if verbose:
-            print(f"[GA] gen {gen+1}/{gens} best fit {best_fit_gen:.6f}")
 
-        # elitism
+        if verbose:
+            print(f"[GA] gen {gen+1}/{gens} best_fit={best_fit_gen:.6f}")
+
+        # callback for UI progress / logging
+        if on_generation is not None:
+            try:
+                on_generation(gen, float(best_fit_gen), deepcopy(best_gene_gen))
+            except Exception:
+                # never allow callback to stop the algorithm
+                if verbose:
+                    print("on_generation callback raised an exception, continuing...")
+
+        # elitism: copy top `elite` genes unchanged
         new_pop = [deepcopy(scored[i][1]) for i in range(min(elite, len(scored)))]
-        # fill rest
+
+        # fill with children
         while len(new_pop) < pop_size:
-            # tournament-like selection: pick two parents from top half
-            p1 = rng.choice(scored[:max(1, len(scored)//2)])[1]
-            p2 = rng.choice(scored[:max(1, len(scored)//2)])[1]
-            child = crossover(p1, p2, rng)
-            child = mutate_gene(child, gene_bounds, rng, mut_rate=mut_rate)
+            # pick parents from top half (tournament-like)
+            top_half = scored[:max(1, len(scored)//2)]
+            p1 = random.choice(top_half)[1]
+            p2 = random.choice(top_half)[1]
+            child = crossover(p1, p2, random)
+            child = mutate_gene(child, gene_bounds, random, mut_rate=mut_rate)
             new_pop.append(child)
+
         pop = new_pop
+
     return best_gene, history
