@@ -218,4 +218,8 @@ Quant Developer | Strategy Simulation Researcher
 
 ## 🏷️ Keywords
 
+<<<<<<< HEAD
 `finance` `quant` `trading-simulator` `machine-learning` `genetic-algorithm` `streamlit` `wealth-generation`
+=======
+`finance` `quant` `trading-simulator` `machine-learning` `genetic-algorithm` `streamlit` `wealth-generation`
+>>>>>>> 8a9cefd (Adding updated files)
