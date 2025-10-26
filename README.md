@@ -1,4 +1,4 @@
-# ⚔️ Market Wars: Strategy Arena & Wealth Generator
+# 📊 GUTS Hub — Market & Portfolio Intelligence
 
 <div align="center">
 
