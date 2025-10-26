@@ -16,8 +16,9 @@
 
 ---
 
-[📊 Investment Analysis Dashboard](https://github.com/Dharundp6/GUTS)
+# [📊 Investment Analysis Dashboard](https://github.com/Dharundp6/GUTS)
 
+---
 # ⚔️ Market Wars: Strategy Arena & Wealth Generator
 ## 🌍 Overview
 
