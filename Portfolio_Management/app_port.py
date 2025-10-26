@@ -11,42 +11,6 @@ from utils.data_loader import load_data_from_file
 from utils.chatbot import render_chatbot_popup
 from pages import section1_overview, section2_simulator, section3_analysis
 
-# Page configuration
-st.set_page_config(
-    page_title="Investment Analysis Dashboard",
-    page_icon="📈",
-    layout="wide",
-    initial_sidebar_state="collapsed"
-)
-
-# Custom CSS
-st.markdown("""
-    <style>
-    .main-header {
-        font-size: 3rem;
-        font-weight: bold;
-        text-align: center;
-        color: #1f77b4;
-        padding: 1rem;
-    }
-    .metric-card {
-        background-color: #f0f2f6;
-        padding: 1rem;
-        border-radius: 0.5rem;
-        margin: 0.5rem 0;
-    }
-    .stTabs [data-baseweb="tab-list"] {
-        gap: 2rem;
-    }
-    .stTabs [data-baseweb="tab"] {
-        height: 50px;
-        padding: 10px 20px;
-        font-size: 16px;
-        font-weight: bold;
-    }
-    </style>
-""", unsafe_allow_html=True)
-
 
 def main():
     """Main application"""
@@ -162,5 +126,49 @@ def main():
     """, unsafe_allow_html=True)
 
 
+def render_app():
+    """
+    Entry point for the Investment Analysis Dashboard when called from the main hub.
+    Simply calls the main() function with all the original logic.
+    """
+    main()
+
+
 if __name__ == "__main__":
+    # Page configuration - only when running standalone
+    st.set_page_config(
+        page_title="Investment Analysis Dashboard",
+        page_icon="📈",
+        layout="wide",
+        initial_sidebar_state="collapsed"
+    )
+    
+    # Custom CSS
+    st.markdown("""
+        <style>
+        .main-header {
+            font-size: 3rem;
+            font-weight: bold;
+            text-align: center;
+            color: #1f77b4;
+            padding: 1rem;
+        }
+        .metric-card {
+            background-color: #f0f2f6;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin: 0.5rem 0;
+        }
+        .stTabs [data-baseweb="tab-list"] {
+            gap: 2rem;
+        }
+        .stTabs [data-baseweb="tab"] {
+            height: 50px;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        </style>
+    """, unsafe_allow_html=True)
+    
     main()
