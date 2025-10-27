@@ -375,13 +375,6 @@ Apply per-regime genes dynamically to observe adaptive trading behavior
 This project is licensed under the **MIT License** — free to use, modify, and extend.
 
 See [LICENSE](LICENSE) file for details.
-
----
-
-## 💡 Pitch (30-Second Version)
-
-> *"We built a trading battle arena where strategies compete in synthetic markets with real-world complexity. Each market has bull/bear/sideways regimes and crash events. Agents range from momentum to mean-reversion, all facing realistic costs. A Genetic Algorithm evolves each strategy's parameters and adapts them to changing market conditions. The dashboard shows clear equity curves, drawdowns, and metrics. Downloadable JSONs ensure reproducibility. Our simulator blends market realism with AI adaptation — a true playground for strategy evolution."*
-
 ---
 
 ## 🤝 Contributing
@@ -400,8 +393,9 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 Have questions or suggestions? Feel free to open an issue or reach out!
 
-- **GitHub Issues**: [Create an issue](https://github.com/<your-username>/market-wars-simulator/issues)
-- **Email**: your.email@example.com
+- **GitHub Issues**: [Create an issue](https://github.com/nitesh0007-edith/market-wars-simulator/issues)
+- **Email**: niteshranjansingh85389@gmail.com
+- **Email**: 3090808S@student.gla.ac.uk
 
 ---
 
