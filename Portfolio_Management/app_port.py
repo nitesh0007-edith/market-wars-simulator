@@ -8,8 +8,15 @@ import streamlit as st
 import pandas as pd
 from datetime import timedelta
 from utils.data_loader import load_data_from_file
-from utils.chatbot import render_chatbot_popup
 from pages import section1_overview, section2_simulator, section3_analysis
+
+# Optional chatbot import with graceful error handling
+try:
+    from utils.chatbot import render_chatbot_popup
+    CHATBOT_AVAILABLE = True
+except ImportError as e:
+    CHATBOT_AVAILABLE = False
+    CHATBOT_ERROR = str(e)
 
 
 def main():
@@ -19,8 +26,14 @@ def main():
     st.markdown('<div class="main-header">📊 Investment Analysis Dashboard</div>', unsafe_allow_html=True)
     st.markdown("---")
 
-    # Render investment chatbot popup
-    render_chatbot_popup()
+    # Render investment chatbot popup (if available)
+    if CHATBOT_AVAILABLE:
+        render_chatbot_popup()
+    else:
+        # Show subtle info about missing chatbot (only in sidebar to avoid clutter)
+        with st.sidebar:
+            with st.expander("ℹ️ AI Chatbot Status", expanded=False):
+                st.info("💬 **AI Chatbot Unavailable**\n\nThe chatbot requires `google-generativeai` package and an API key.\n\nSet `GEMINI_API_KEY` in Streamlit secrets to enable it.")
 
     # Load data once at startup (cached)
     df_full, error_msg = load_data_from_file()
