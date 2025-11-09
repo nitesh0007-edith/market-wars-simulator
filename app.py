@@ -195,9 +195,11 @@ st.markdown("""
 # ---------------------------
 # CONFIG: update paths here
 # ---------------------------
-PROJECT_ROOT = Path("/Users/niteshranjansingh/market-wars-simulator/market-wars-simulator").resolve()
+# Use relative paths from this file's location for portability
+CURRENT_DIR = Path(__file__).parent.resolve()
+PROJECT_ROOT = (CURRENT_DIR / "market-wars-simulator").resolve()
 ALGO_PATH = str(PROJECT_ROOT / "app_algo.py")
-PORT_PATH = str(Path("/Users/niteshranjansingh/market-wars-simulator/Portfolio_Management/app_port.py").resolve())
+PORT_PATH = str((CURRENT_DIR / "Portfolio_Management" / "app_port.py").resolve())
 
 # Ensure project root(s) are on sys.path
 if str(PROJECT_ROOT) not in sys.path:
