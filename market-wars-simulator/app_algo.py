@@ -397,6 +397,7 @@ preset_map = {
         "name": "Crisis Mode",
         "desc": "High volatility + frequent shocks",
         "seed": 7, "n_steps": 252*2, "shock_prob": 0.03, "muJ": -0.1, "sigmaJ": 0.12,
+        "trans": [[0.85,0.10,0.05],[0.15,0.75,0.10],[0.10,0.20,0.70]],
         "mu_by_reg": [0.06, -0.25, 0.0], "sigma_by_reg": [0.14,0.45,0.12]
     }
 }
