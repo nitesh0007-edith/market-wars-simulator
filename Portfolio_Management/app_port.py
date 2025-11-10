@@ -28,12 +28,11 @@ def main():
 
     # Render investment chatbot popup (if available)
     if CHATBOT_AVAILABLE:
-        render_chatbot_popup()
-    else:
-        # Show subtle info about missing chatbot (only in sidebar to avoid clutter)
-        with st.sidebar:
-            with st.expander("ℹ️ AI Chatbot Status", expanded=False):
-                st.info("💬 **AI Chatbot Unavailable**\n\nThe chatbot requires `google-generativeai` package and an API key.\n\nSet `GEMINI_API_KEY` in Streamlit secrets to enable it.")
+        try:
+            render_chatbot_popup()
+        except Exception as e:
+            # Silently fail if chatbot has issues (e.g., missing API key)
+            pass
 
     # Load data once at startup (cached)
     df_full, error_msg = load_data_from_file()
