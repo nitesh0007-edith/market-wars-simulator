@@ -1,4 +1,5 @@
 # app_main.py
+# Version: 1.0.1 - Deployment fix for package installation
 import os
 import sys
 import importlib.util
