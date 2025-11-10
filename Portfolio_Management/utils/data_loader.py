@@ -4,9 +4,11 @@ Data loading utilities - Auto-load from data folder
 import streamlit as st
 import pandas as pd
 import os
+from pathlib import Path
 
-# Data file path
-CSV_FILE = "SPY_5min_2months_FullData.csv"
+# Data file path - use absolute path from this file's location
+CURRENT_DIR = Path(__file__).parent.parent.resolve()
+CSV_FILE = str(CURRENT_DIR / "SPY_5min_2months_FullData.csv")
 
 
 @st.cache_data
