@@ -40,6 +40,7 @@ ENV/
 
 # Data files
 *.csv
+!SPY_5min_2months_FullData.csv  # Exception: include sample data for deployment
 *.xlsx
 *.db
 *.sqlite
